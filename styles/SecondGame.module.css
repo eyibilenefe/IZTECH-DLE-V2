@@ -1,62 +1,349 @@
-/* styles/SecondGame.module.css */
+/* ===== SecondGame.module.css — Wordle Dark Theme ===== */
+
 .container {
-    display: flex;
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 20px;
+  padding: 8px 0 40px;
+}
+
+/* ===== TOP BAR ===== */
+.topBar {
+  width: 100%;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.roundBadge,
+.scoreBadge {
+  padding: 8px 16px;
+  background: #1a1a1b;
+  border: 1px solid #3a3a3c;
+  border-radius: 8px;
+  font-size: 0.85rem;
+  font-weight: 700;
+  color: #d7dadc;
+  letter-spacing: 0.05em;
+}
+
+.scoreBadge {
+  color: #c9b458;
+}
+
+/* ===== IMAGE REVEAL ===== */
+.revealArea {
+  display: flex;
+  align-items: center;
+  gap: 20px;
+}
+
+.imageFrame {
+  position: relative;
+  width: 320px;
+  height: 320px;
+  border-radius: 16px;
+  overflow: hidden;
+  border: 2px solid #3a3a3c;
+  background: #0a0a0b;
+  box-shadow: 0 8px 32px rgba(0,0,0,0.4);
+}
+
+.image {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  display: block;
+}
+
+.blurBadge {
+  position: absolute;
+  bottom: 10px;
+  right: 10px;
+  background: rgba(0,0,0,0.7);
+  backdrop-filter: blur(8px);
+  padding: 4px 10px;
+  border-radius: 20px;
+  font-size: 0.7rem;
+  font-weight: 700;
+  color: #6aaa64;
+  letter-spacing: 0.05em;
+}
+
+/* ===== TIMER RING ===== */
+.timerRing {
+  position: relative;
+  width: 68px;
+  height: 68px;
+  flex-shrink: 0;
+}
+
+.timerText {
+  position: absolute;
+  inset: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 1.2rem;
+  font-weight: 800;
+  font-variant-numeric: tabular-nums;
+}
+
+/* ===== GUESS DOTS ===== */
+.guessCounter {
+  display: flex;
+  gap: 8px;
+}
+
+.guessDot {
+  width: 10px;
+  height: 10px;
+  border-radius: 50%;
+  background: #3a3a3c;
+  transition: background 0.3s ease;
+}
+
+.guessDotUsed {
+  background: #b59f3b;
+}
+
+/* ===== HISTORY PILLS ===== */
+.pillRow {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+  justify-content: center;
+  max-width: 400px;
+}
+
+.pill {
+  padding: 6px 14px;
+  border-radius: 20px;
+  font-size: 0.8rem;
+  font-weight: 600;
+  animation: popIn 0.3s ease;
+}
+
+@keyframes popIn {
+  0% { opacity: 0; transform: scale(0.8); }
+  100% { opacity: 1; transform: scale(1); }
+}
+
+.pillCorrect {
+  background: rgba(83, 141, 78, 0.25);
+  border: 1px solid #538d4e;
+  color: #6aaa64;
+}
+
+.pillWrong {
+  background: rgba(58, 58, 60, 0.5);
+  border: 1px solid #3a3a3c;
+  color: #818384;
+  text-decoration: line-through;
+}
+
+.pillEmpty {
+  width: 60px;
+  height: 30px;
+  border-radius: 20px;
+  border: 1px dashed #2a2a2c;
+}
+
+/* ===== INPUT AREA ===== */
+.inputArea {
+  display: flex;
+  gap: 8px;
+  width: 100%;
+  max-width: 420px;
+}
+
+.inputWrapper {
+  flex: 1;
+  position: relative;
+}
+
+.input {
+  width: 100%;
+  padding: 14px 16px;
+  font-size: 1rem;
+  font-family: 'Inter', sans-serif;
+  font-weight: 500;
+  background: #1a1a1b;
+  border: 2px solid #3a3a3c;
+  border-radius: 8px;
+  color: #ffffff;
+  outline: none;
+  transition: border-color 0.2s ease;
+  letter-spacing: 0.05em;
+}
+
+.input:focus {
+  border-color: #565758;
+}
+
+.input::placeholder {
+  color: #565758;
+}
+
+.dropdown {
+  position: absolute;
+  top: calc(100% + 4px);
+  left: 0;
+  right: 0;
+  background: #1a1a1b;
+  border: 1px solid #3a3a3c;
+  border-radius: 8px;
+  max-height: 200px;
+  overflow-y: auto;
+  z-index: 100;
+  box-shadow: 0 8px 24px rgba(0,0,0,0.5);
+}
+
+.dropdownItem {
+  padding: 10px 16px;
+  font-size: 0.9rem;
+  cursor: pointer;
+  transition: background 0.15s;
+  color: #d7dadc;
+  border-bottom: 1px solid #2a2a2c;
+}
+
+.dropdownItem:last-child {
+  border-bottom: none;
+}
+
+.dropdownItem:hover,
+.dropdownItemActive {
+  background: #2a2a2c;
+  color: #ffffff;
+}
+
+.submitBtn {
+  padding: 14px 24px;
+  font-size: 0.9rem;
+  font-family: 'Inter', sans-serif;
+  font-weight: 700;
+  background: #538d4e;
+  color: #ffffff;
+  border: none;
+  border-radius: 8px;
+  cursor: pointer;
+  text-transform: uppercase;
+  letter-spacing: 0.1em;
+  transition: all 0.2s ease;
+  white-space: nowrap;
+}
+
+.submitBtn:hover:not(:disabled) {
+  background: #6aaa64;
+}
+
+.submitBtn:disabled {
+  background: #3a3a3c;
+  color: #565758;
+  cursor: not-allowed;
+}
+
+/* ===== RESULT CARD ===== */
+.resultCard {
+  width: 100%;
+  max-width: 380px;
+  background: #1a1a1b;
+  border: 2px solid #3a3a3c;
+  border-radius: 16px;
+  padding: 32px 24px;
+  text-align: center;
+  animation: slideUp 0.4s ease;
+}
+
+@keyframes slideUp {
+  from { opacity: 0; transform: translateY(20px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+
+.resultEmoji {
+  font-size: 3rem;
+  margin-bottom: 12px;
+}
+
+.resultTitle {
+  font-size: 1.3rem;
+  font-weight: 800;
+  text-transform: uppercase;
+  letter-spacing: 0.15em;
+  color: #ffffff;
+  margin-bottom: 4px;
+}
+
+.resultAnswer {
+  font-size: 1rem;
+  font-weight: 600;
+  color: #6aaa64;
+  margin-bottom: 20px;
+}
+
+.resultStats {
+  display: flex;
+  justify-content: center;
+  gap: 24px;
+  margin-bottom: 24px;
+}
+
+.statItem {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 2px;
+}
+
+.statValue {
+  font-size: 1.2rem;
+  font-weight: 800;
+  color: #ffffff;
+}
+
+.statLabel {
+  font-size: 0.7rem;
+  font-weight: 600;
+  color: #565758;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+}
+
+.playAgainBtn {
+  padding: 12px 32px;
+  font-size: 0.9rem;
+  font-family: 'Inter', sans-serif;
+  font-weight: 700;
+  background: #538d4e;
+  color: #ffffff;
+  border: none;
+  border-radius: 8px;
+  cursor: pointer;
+  text-transform: uppercase;
+  letter-spacing: 0.1em;
+  transition: all 0.2s ease;
+}
+
+.playAgainBtn:hover {
+  background: #6aaa64;
+}
+
+/* ===== RESPONSIVE ===== */
+@media (max-width: 500px) {
+  .imageFrame {
+    width: 260px;
+    height: 260px;
+  }
+
+  .revealArea {
     flex-direction: column;
-    align-items: center;
-    justify-content: center;
-    padding: 20px;
+    gap: 12px;
   }
-  
-  .imageContainer {
-    width: 300px;
-    height: 300px;
-    margin: 20px 0;
-    border: 2px solid #ccc;
-    border-radius: 10px;
+
+  .inputArea {
+    flex-direction: column;
   }
-  
-  .gameImage {
-    width: 100%;
-    height: 100%;
-    object-fit: cover;
-  }
-  
-  .inputContainer {
-    display: flex;
-    gap: 10px;
-  }
-  
-  .inputBox {
-    padding: 10px;
-    font-size: 16px;
-    width: 200px;
-    border: 1px solid #ccc;
-    border-radius: 5px;
-  }
-  
-  .guessButton {
-    padding: 10px 20px;
-    font-size: 16px;
-    cursor: pointer;
-    background-color: #0070f3;
-    color: white;
-    border: none;
-    border-radius: 5px;
-    transition: background-color 0.3s;
-  }
-  
-  .guessButton:hover {
-    background-color: #005bb5;
-  }
-  
-  .guessButton:disabled {
-    background-color: #aaa;
-    cursor: not-allowed;
-  }
-  
-  .message {
-    margin-top: 20px;
-    font-size: 18px;
-    color: #333;
-  }
-  
+}

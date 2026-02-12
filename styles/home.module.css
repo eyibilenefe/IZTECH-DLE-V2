@@ -1,180 +1,504 @@
-/* styles/Home.module.css */
+/* ===== CONTAINER / LAYOUT ===== */
+.container {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  min-height: 100vh;
+  padding: 0 16px 40px;
+  max-width: 600px;
+  margin: 0 auto;
+  width: 100%;
+}
 
+/* ===== PAGE HEADER ===== */
+.pageHeader {
+  width: 100%;
+  text-align: center;
+  padding: 16px 0;
+  border-bottom: 1px solid #3a3a3c;
+  margin-bottom: 32px;
+}
+
+.pageTitle {
+  font-size: 2rem;
+  font-weight: 800;
+  letter-spacing: 0.15em;
+  text-transform: uppercase;
+  color: #ffffff;
+}
+
+/* ===== GAME SELECTION CARDS ===== */
+.cardGrid {
+  display: flex;
+  gap: 16px;
+  width: 100%;
+  margin-bottom: 24px;
+}
+
+.card {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  padding: 20px 16px;
+  background: #1a1a1b;
+  border: 2px solid #3a3a3c;
+  border-radius: 12px;
+  cursor: pointer;
+  transition: all 0.25s ease;
+  color: #d7dadc;
+  font-size: 0.9rem;
+  font-weight: 600;
+  text-align: center;
+}
+
+.card:hover:not(:disabled) {
+  border-color: #538d4e;
+  background: #222223;
+  transform: translateY(-2px);
+}
+
+.card:disabled {
+  opacity: 0.35;
+  cursor: not-allowed;
+}
+
+.cardActive {
+  border-color: #538d4e;
+  background: #1b2e1b;
+}
+
+.cardEmoji {
+  font-size: 2rem;
+}
+
+/* ===== GAME CONTAINER ===== */
 .gameContainer {
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    padding: 30px; /* Daha fazla padding ekleyerek içeriği genişlet */
-    background-color: #f9f9f9; /* Arka plan rengini daha açık yap */
-    border-radius: 12px; /* Daha yuvarlak köşeler */
-    box-shadow: 0 6px 12px rgba(0, 0, 0, 0.15); /* Daha belirgin gölgelendirme efekti */
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
 }
 
-/* Butonlar için daha modern bir görünüm */
-.startButton,
-.submitButton,
-.restartButton {
-    padding: 15px 30px; /* Buton boyutlarını artır */
-    margin: 15px;
-    background-color: #28a745; /* Yeşil bir renk */
-    color: white;
-    border: none;
-    border-radius: 20px; /* Daha yuvarlak köşeler */
-    cursor: pointer;
-    font-size: 1.2em; /* Font boyutunu artır */
-    transition: background-color 0.3s, transform 0.2s, box-shadow 0.2s; /* Geçiş efekti ekle */
-    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2); /* Buton gölgesi */
+/* ===== HEADER / INFO BAR ===== */
+.gameHeader {
+  width: 100%;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 20px;
+  padding: 12px 16px;
+  background: #1a1a1b;
+  border-radius: 10px;
+  border: 1px solid #3a3a3c;
 }
 
-.startButton:hover,
-.submitButton:hover,
-.restartButton:hover {
-    background-color: #218838; /* Hover rengi değiştir */
-    transform: scale(1.05); /* Hover efektine ölçekleme ekle */
-    box-shadow: 0 6px 12px rgba(0, 0, 0, 0.3); /* Hover durumunda gölge artışı */
+.attemptBadge {
+  font-size: 0.85rem;
+  font-weight: 600;
+  color: #818384;
 }
 
+.attemptBadge span {
+  color: #ffffff;
+  font-size: 1.1rem;
+}
+
+/* ===== FORM / INPUT ===== */
 .form {
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    margin-bottom: 20px; /* Formdan sonra boşluk bırak */
+  display: flex;
+  width: 100%;
+  gap: 8px;
+  margin-bottom: 24px;
+  position: relative;
 }
 
-.label {
-    margin-bottom: 8px;
-    font-size: 1.4em; /* Yazı boyutunu artır */
+.inputWrapper {
+  flex: 1;
+  position: relative;
 }
 
 .input {
-    padding: 12px; /* Padding artır */
-    font-size: 1em;
-    margin-top: 5px;
-    border: 1px solid #ccc;
-    border-radius: 6px; /* Daha yuvarlak köşeler */
-    width: 320px; /* Genişlik artır */
-    transition: border-color 0.3s; /* Geçiş efekti ekle */
+  width: 100%;
+  padding: 14px 16px;
+  font-size: 1rem;
+  font-family: 'Inter', sans-serif;
+  font-weight: 500;
+  background: #1a1a1b;
+  border: 2px solid #3a3a3c;
+  border-radius: 8px;
+  color: #ffffff;
+  outline: none;
+  transition: border-color 0.2s ease;
+  letter-spacing: 0.05em;
+  text-transform: uppercase;
 }
 
 .input:focus {
-    border-color: #80bdff; /* Focus durumunda kenar rengini değiştir */
-    outline: none; /* Varsayılan outline'ı kaldır */
+  border-color: #565758;
 }
 
-/* Datalist için daha modern bir görünüm */
-.datalist {
-    max-height: 200px; /* Maksimum yükseklik */
-    overflow-y: auto; /* Taşma durumunda kaydırma çubuğu */
-    background-color: white; /* Arka plan rengi */
-    border: 1px solid #ccc; /* Kenar rengi */
-    border-radius: 8px; /* Kenar yuvarlama */
-    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2); /* Gölge efekti */
-    padding: 10px; /* İçerik için boşluk */
-    margin: 20px auto; /* Üstte ve altta boşluk, sağ ve solda otomatik boşluk */
-    width: 90%; /* Genişlik %90 */
-    max-width: 500px; /* Maksimum genişlik */
-    transition: box-shadow 0.3s ease; /* Gölge geçişi */
+.input::placeholder {
+  color: #565758;
+  text-transform: none;
+  letter-spacing: normal;
 }
 
-.successMessage {
-    color: #28a745; /* Başarı mesajı yeşil */
-    font-weight: bold;
-    font-size: 1.2em; /* Başarı mesajı boyutunu artır */
-    margin-top: 10px; /* Üstteki boşluk */
+/* Autocomplete dropdown */
+.dropdown {
+  position: absolute;
+  top: calc(100% + 4px);
+  left: 0;
+  right: 0;
+  background: #1a1a1b;
+  border: 1px solid #3a3a3c;
+  border-radius: 8px;
+  max-height: 200px;
+  overflow-y: auto;
+  z-index: 100;
+  box-shadow: 0 8px 24px rgba(0,0,0,0.5);
 }
 
-.errorMessage {
-    color: #dc3545; /* Hata mesajı rengi kırmızı */
-    font-weight: bold;
-    font-size: 1.2em; /* Hata mesajı boyutunu artır */
-    margin-top: 10px; /* Üstteki boşluk */
+.dropdownItem {
+  padding: 10px 16px;
+  font-size: 0.9rem;
+  cursor: pointer;
+  transition: background 0.15s;
+  color: #d7dadc;
+  border-bottom: 1px solid #2a2a2c;
 }
 
-.comparisonsContainer {
-    display: flex;
-    flex-wrap: wrap; /* Kutuların sarmalanmasını sağlar */
-    justify-content: center; /* Kutuların ortalanmasını sağlar */
-    margin-top: 20px; /* Yukarıdan boşluk ekle */
+.dropdownItem:last-child {
+  border-bottom: none;
 }
 
-/* Kutular için daha modern bir görünüm */
-.comparisonBox {
-    border: 1px solid #ccc;
-    border-radius: 12px; /* Daha yuvarlak köşeler */
-    padding: 20px; /* İç boşluk artır */
-    flex: 0 0 calc(12.5% - 20px); /* 8 kutu yan yana (12.5% = 100% / 8) */
-    box-sizing: border-box; /* Padding ve border'ı dahil eder */
-    text-align: center;
-    margin: 10px; /* Kutular arasına boşluk ekle */
-    transition: transform 0.2s, box-shadow 0.2s; /* Geçiş efekti ekle */
-    background-color: #ffffff; /* Arka plan rengi */
-    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1); /* Gölge efekti */
+.dropdownItem:hover,
+.dropdownItemActive {
+  background: #2a2a2c;
+  color: #ffffff;
 }
 
-.comparisonBox:hover {
-    transform: scale(1.05); /* Hover efekti ekle */
-    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2); /* Hover sırasında gölgelendirme efekti ekle */
+/* Submit button */
+.submitButton {
+  padding: 14px 24px;
+  font-size: 0.9rem;
+  font-family: 'Inter', sans-serif;
+  font-weight: 700;
+  background: #538d4e;
+  color: #ffffff;
+  border: none;
+  border-radius: 8px;
+  cursor: pointer;
+  text-transform: uppercase;
+  letter-spacing: 0.1em;
+  transition: all 0.2s ease;
+  white-space: nowrap;
 }
 
-.correct {
-    background-color: #d4edda; /* Doğru kutular için yeşil arka plan */
-    border-color: #c3e6cb;
+.submitButton:hover {
+  background: #6aaa64;
+  transform: scale(1.02);
 }
 
-.incorrect {
-    background-color: #f8d7da; /* Yanlış kutular için kırmızı arka plan */
-    border-color: #f5c6cb;
+.submitButton:active {
+  transform: scale(0.98);
 }
 
-.neutral {
-    background-color: #e2e3e5; /* Nötr kutular için gri arka plan */
-    border-color: #d6d8db;
+/* ===== GUESS GRID ===== */
+.guessGrid {
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
 }
 
-/* Medya sorguları ile daha iyi uyum sağla */
-@media (max-width: 1200px) {
-    .comparisonBox {
-        flex: 0 0 calc(12.5% - 20px); /* 8 kutu yan yana */
-    }
+/* Single guess row */
+.guessRow {
+  display: grid;
+  grid-template-columns: repeat(8, 1fr);
+  gap: 6px;
+  animation: slideIn 0.3s ease;
 }
 
-@media (max-width: 992px) {
-    .comparisonBox {
-        flex: 0 0 calc(12.5% - 20px); /* 8 kutu yan yana */
-    }
+@keyframes slideIn {
+  from {
+    opacity: 0;
+    transform: translateY(-10px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
 }
 
-@media (max-width: 768px) {
-    .comparisonBox {
-        flex: 0 0 calc(12.5% - 20px); /* 8 kutu yan yana */
-    }
+/* Each tile */
+.tile {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  padding: 8px 4px;
+  border-radius: 6px;
+  min-height: 72px;
+  text-align: center;
+  animation: flipIn 0.5s ease;
+  backface-visibility: hidden;
 }
 
-@media (max-width: 576px) {
-    .comparisonBox {
-        flex: 0 0 calc(12.5% - 20px); /* 8 kutu yan yana */
-    }
+.tile:nth-child(1) { animation-delay: 0s; }
+.tile:nth-child(2) { animation-delay: 0.1s; }
+.tile:nth-child(3) { animation-delay: 0.15s; }
+.tile:nth-child(4) { animation-delay: 0.2s; }
+.tile:nth-child(5) { animation-delay: 0.25s; }
+.tile:nth-child(6) { animation-delay: 0.3s; }
+.tile:nth-child(7) { animation-delay: 0.35s; }
+.tile:nth-child(8) { animation-delay: 0.4s; }
+
+@keyframes flipIn {
+  0% {
+    transform: rotateX(90deg);
+    opacity: 0;
+  }
+  100% {
+    transform: rotateX(0);
+    opacity: 1;
+  }
 }
-winAnimation {
-    animation: fadeIn 1s ease-in-out;
-    font-size: 2rem;
-    color: green;
-    text-align: center;
+
+.tileLabel {
+  font-size: 0.55rem;
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+  opacity: 0.85;
+  margin-bottom: 4px;
+  line-height: 1.1;
+}
+
+.tileValue {
+  font-size: 0.75rem;
+  font-weight: 700;
+  line-height: 1.2;
+  word-break: break-word;
+}
+
+.tileSymbol {
+  font-size: 0.85rem;
+  margin-top: 2px;
+}
+
+/* Tile color states */
+.tileCorrect {
+  background: #538d4e;
+  border: 2px solid #6aaa64;
+  color: #ffffff;
+}
+
+.tileWrong {
+  background: #3a3a3c;
+  border: 2px solid #4a4a4c;
+  color: #d7dadc;
+}
+
+.tileClose {
+  background: #b59f3b;
+  border: 2px solid #c9b458;
+  color: #ffffff;
+}
+
+.tileNeutral {
+  background: #2c2c2e;
+  border: 2px solid #3a3a3c;
+  color: #818384;
+}
+
+/* ===== MESSAGES ===== */
+.messageBar {
+  width: 100%;
+  padding: 12px 16px;
+  border-radius: 8px;
+  text-align: center;
+  font-weight: 600;
+  font-size: 0.9rem;
+  margin-bottom: 16px;
+  animation: fadeIn 0.3s ease;
+}
+
+.messageSuccess {
+  background: rgba(83, 141, 78, 0.2);
+  border: 1px solid #538d4e;
+  color: #6aaa64;
+}
+
+.messageError {
+  background: rgba(58, 58, 60, 0.4);
+  border: 1px solid #3a3a3c;
+  color: #818384;
+}
+
+.messageNotFound {
+  background: rgba(181, 159, 59, 0.15);
+  border: 1px solid #b59f3b;
+  color: #c9b458;
+}
+
+/* ===== WIN OVERLAY ===== */
+.winOverlay {
+  position: fixed;
+  inset: 0;
+  background: rgba(0, 0, 0, 0.75);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 1000;
+  animation: fadeIn 0.5s ease;
+}
+
+.winCard {
+  background: #1a1a1b;
+  border: 2px solid #538d4e;
+  border-radius: 16px;
+  padding: 40px;
+  text-align: center;
+  max-width: 400px;
+  width: 90%;
+  animation: bounceIn 0.6s ease;
+}
+
+@keyframes bounceIn {
+  0% { transform: scale(0.5); opacity: 0; }
+  70% { transform: scale(1.05); }
+  100% { transform: scale(1); opacity: 1; }
+}
+
+.winEmoji {
+  font-size: 4rem;
+  margin-bottom: 16px;
+}
+
+.winTitle {
+  font-size: 1.6rem;
+  font-weight: 800;
+  color: #6aaa64;
+  text-transform: uppercase;
+  letter-spacing: 0.2em;
+  margin-bottom: 8px;
+}
+
+.winSubtitle {
+  font-size: 0.95rem;
+  color: #818384;
+  margin-bottom: 24px;
+}
+
+.winButton {
+  padding: 12px 32px;
+  font-size: 0.9rem;
+  font-family: 'Inter', sans-serif;
+  font-weight: 700;
+  background: #538d4e;
+  color: #ffffff;
+  border: none;
+  border-radius: 8px;
+  cursor: pointer;
+  text-transform: uppercase;
+  letter-spacing: 0.1em;
+  transition: all 0.2s ease;
+  margin: 4px;
+}
+
+.winButton:hover {
+  background: #6aaa64;
+}
+
+.winButtonSecondary {
+  background: transparent;
+  border: 2px solid #3a3a3c;
+  color: #d7dadc;
+}
+
+.winButtonSecondary:hover {
+  border-color: #565758;
+  background: #2a2a2c;
+}
+
+/* ===== RESTART / UTILITY BUTTONS ===== */
+.startButton {
+  padding: 14px 40px;
+  font-size: 1rem;
+  font-family: 'Inter', sans-serif;
+  font-weight: 700;
+  background: #538d4e;
+  color: #ffffff;
+  border: none;
+  border-radius: 8px;
+  cursor: pointer;
+  text-transform: uppercase;
+  letter-spacing: 0.15em;
+  transition: all 0.2s ease;
+  margin-top: 20px;
+}
+
+.startButton:hover {
+  background: #6aaa64;
+  transform: scale(1.02);
+}
+
+/* ===== COLUMN HEADERS ===== */
+.columnHeaders {
+  display: grid;
+  grid-template-columns: repeat(8, 1fr);
+  gap: 6px;
+  width: 100%;
+  margin-bottom: 6px;
+}
+
+.columnHeader {
+  font-size: 0.55rem;
+  font-weight: 700;
+  text-transform: uppercase;
+  text-align: center;
+  color: #565758;
+  letter-spacing: 0.05em;
+  padding: 4px 2px;
+}
+
+/* ===== ANIMATIONS ===== */
+@keyframes fadeIn {
+  from { opacity: 0; }
+  to { opacity: 1; }
+}
+
+/* ===== RESPONSIVE ===== */
+@media (max-width: 640px) {
+  .guessRow {
+    grid-template-columns: repeat(4, 1fr);
   }
   
-  .nextTurnAnimation {
-    animation: fadeIn 1s ease-in-out;
-    font-size: 1.5rem;
-    color: blue;
-    text-align: center;
-    margin-top: 20px;
+  .columnHeaders {
+    grid-template-columns: repeat(4, 1fr);
+  }
+
+  .tile {
+    min-height: 60px;
+    padding: 6px 3px;
+  }
+
+  .tileLabel {
+    font-size: 0.5rem;
+  }
+
+  .tileValue {
+    font-size: 0.7rem;
+  }
+
+  .pageTitle {
+    font-size: 1.4rem;
   }
   
-  @keyframes fadeIn {
-    from {
-      opacity: 0;
-    }
-    to {
-      opacity: 1;
-    }
+  .cardGrid {
+    flex-direction: column;
   }
+}

@@ -1,22 +1,19 @@
 // components/Game.js
-import { useState } from 'react'
+import { useState, useRef, useEffect } from 'react'
 import styles from '../styles/Home.module.css'
 
-// Departman verilerini burada saklıyoruz
 const departments = [
   {
     departmanadi: 'Fizik',
-    turkiyeDevletUniSiralamasi: null, // Veri yok
     departmanAcilisYili: 1998,
     fakulteTuru: 'Fen Fakültesi',
-    yandalVeCAP: '2', // Yandal ve ÇAP sayısı
+    yandalVeCAP: '2',
     yksYaklasikSiralamasi2024: 87000,
     erasmusUlkeSayisi: 6,
     ogretimGorevlisiSayisi: 35
   },
   {
     departmanadi: 'Fotonik',
-    turkiyeDevletUniSiralamasi: null,
     departmanAcilisYili: 2019,
     fakulteTuru: 'Fen Fakültesi',
     yandalVeCAP: '0',
@@ -26,7 +23,6 @@ const departments = [
   },
   {
     departmanadi: 'Kimya',
-    turkiyeDevletUniSiralamasi: null,
     departmanAcilisYili: 1998,
     fakulteTuru: 'Fen Fakültesi',
     yandalVeCAP: '2',
@@ -36,7 +32,6 @@ const departments = [
   },
   {
     departmanadi: 'Matematik',
-    turkiyeDevletUniSiralamasi: null,
     departmanAcilisYili: 1998,
     fakulteTuru: 'Fen Fakültesi',
     yandalVeCAP: '2',
@@ -46,7 +41,6 @@ const departments = [
   },
   {
     departmanadi: 'Moleküler Biyoloji',
-    turkiyeDevletUniSiralamasi: null,
     departmanAcilisYili: 2002,
     fakulteTuru: 'Fen Fakültesi',
     yandalVeCAP: '2',
@@ -56,7 +50,6 @@ const departments = [
   },
   {
     departmanadi: 'Bilgisayar',
-    turkiyeDevletUniSiralamasi: null,
     departmanAcilisYili: 1992,
     fakulteTuru: 'Mühendislik Fakültesi',
     yandalVeCAP: '1',
@@ -66,7 +59,6 @@ const departments = [
   },
   {
     departmanadi: 'Biyomühendislik',
-    turkiyeDevletUniSiralamasi: null,
     departmanAcilisYili: 2014,
     fakulteTuru: 'Mühendislik Fakültesi',
     yandalVeCAP: '0',
@@ -76,7 +68,6 @@ const departments = [
   },
   {
     departmanadi: 'Çevre Mühendisliği',
-    turkiyeDevletUniSiralamasi: null,
     departmanAcilisYili: 1997,
     fakulteTuru: 'Mühendislik Fakültesi',
     yandalVeCAP: '0',
@@ -86,7 +77,6 @@ const departments = [
   },
   {
     departmanadi: 'Elektrik Mühendisliği',
-    turkiyeDevletUniSiralamasi: null,
     departmanAcilisYili: 1994,
     fakulteTuru: 'Mühendislik Fakültesi',
     yandalVeCAP: '1',
@@ -96,7 +86,6 @@ const departments = [
   },
   {
     departmanadi: 'Enerji Mühendisliği',
-    turkiyeDevletUniSiralamasi: null,
     departmanAcilisYili: 2014,
     fakulteTuru: 'Mühendislik Fakültesi',
     yandalVeCAP: '0',
@@ -106,7 +95,6 @@ const departments = [
   },
   {
     departmanadi: 'Gıda Mühendisliği',
-    turkiyeDevletUniSiralamasi: null,
     departmanAcilisYili: 1996,
     fakulteTuru: 'Mühendislik Fakültesi',
     yandalVeCAP: '0',
@@ -116,7 +104,6 @@ const departments = [
   },
   {
     departmanadi: 'İnşaat Mühendisliği',
-    turkiyeDevletUniSiralamasi: null,
     departmanAcilisYili: 1992,
     fakulteTuru: 'Mühendislik Fakültesi',
     yandalVeCAP: '0',
@@ -126,7 +113,6 @@ const departments = [
   },
   {
     departmanadi: 'Kimya Mühendisliği',
-    turkiyeDevletUniSiralamasi: null,
     departmanAcilisYili: 1996,
     fakulteTuru: 'Mühendislik Fakültesi',
     yandalVeCAP: '2',
@@ -136,7 +122,6 @@ const departments = [
   },
   {
     departmanadi: 'Makine Mühendisliği',
-    turkiyeDevletUniSiralamasi: null,
     departmanAcilisYili: 1998,
     fakulteTuru: 'Mühendislik Fakültesi',
     yandalVeCAP: '1',
@@ -146,7 +131,6 @@ const departments = [
   },
   {
     departmanadi: 'Malzeme Bilimi',
-    turkiyeDevletUniSiralamasi: null,
     departmanAcilisYili: 1998,
     fakulteTuru: 'Mühendislik Fakültesi',
     yandalVeCAP: '0',
@@ -156,7 +140,6 @@ const departments = [
   },
   {
     departmanadi: 'Endüstriyel Tasarım',
-    turkiyeDevletUniSiralamasi: null,
     departmanAcilisYili: 1994,
     fakulteTuru: 'Mimarlık Fakültesi',
     yandalVeCAP: '2',
@@ -166,7 +149,6 @@ const departments = [
   },
   {
     departmanadi: 'Mimarlık',
-    turkiyeDevletUniSiralamasi: null,
     departmanAcilisYili: 1995,
     fakulteTuru: 'Mimarlık Fakültesi',
     yandalVeCAP: '2',
@@ -176,7 +158,6 @@ const departments = [
   },
   {
     departmanadi: 'SBP',
-    turkiyeDevletUniSiralamasi: null,
     departmanAcilisYili: 1992,
     fakulteTuru: 'Mimarlık Fakültesi',
     yandalVeCAP: '2',
@@ -186,12 +167,67 @@ const departments = [
   }
 ]
 
-export default function Game({ onWin }) { // onWin propunu ekledik
+const properties = [
+  { key: 'departmanadi', label: 'Bölüm', type: 'string' },
+  { key: 'departmanAcilisYili', label: 'Kuruluş', type: 'number' },
+  { key: 'fakulteTuru', label: 'Fakülte', type: 'string' },
+  { key: 'yandalVeCAP', label: 'ÇAP', type: 'string' },
+  { key: 'yksYaklasikSiralamasi2024', label: 'YKS Sıra', type: 'number' },
+  { key: 'erasmusUlkeSayisi', label: 'Erasmus', type: 'number' },
+  { key: 'ogretimGorevlisiSayisi', label: 'Akademisyen', type: 'number' },
+]
+
+function getTileStatus(prop, guessedValue, targetValue) {
+  if (prop.type === 'number') {
+    if (targetValue === null || guessedValue === null) return { symbol: '—', status: 'neutral' }
+    if (guessedValue === targetValue) return { symbol: '✓', status: 'correct' }
+    // "Close" if within 20% range
+    const diff = Math.abs(guessedValue - targetValue)
+    const threshold = Math.max(targetValue * 0.2, 2)
+    if (diff <= threshold) {
+      return { symbol: guessedValue > targetValue ? '↓' : '↑', status: 'close' }
+    }
+    return { symbol: guessedValue > targetValue ? '↓' : '↑', status: 'wrong' }
+  }
+  // string comparison
+  if (guessedValue.toLowerCase() === targetValue.toLowerCase()) {
+    return { symbol: '✓', status: 'correct' }
+  }
+  return { symbol: '✗', status: 'wrong' }
+}
+
+export default function Game({ onWin }) {
   const [currentDept, setCurrentDept] = useState(null)
   const [userInput, setUserInput] = useState('')
   const [message, setMessage] = useState('')
-  const [messageType, setMessageType] = useState('') // 'success' or 'error'
-  const [comparisons, setComparisons] = useState([]) // Her tahmin için karşılaştırmalar
+  const [messageType, setMessageType] = useState('')
+  const [guesses, setGuesses] = useState([]) // Array of guess rows
+  const [showDropdown, setShowDropdown] = useState(false)
+  const [activeDropdownIndex, setActiveDropdownIndex] = useState(-1)
+  const [won, setWon] = useState(false)
+  const inputRef = useRef(null)
+  const dropdownRef = useRef(null)
+
+  const departmentNames = departments.map(d => d.departmanadi)
+
+  const filteredDepts = userInput.trim()
+    ? departmentNames.filter(n => n.toLowerCase().includes(userInput.trim().toLowerCase()))
+    : departmentNames
+
+  useEffect(() => {
+    // Auto-start game
+    startGame()
+  }, [])
+
+  useEffect(() => {
+    const handleClickOutside = (e) => {
+      if (dropdownRef.current && !dropdownRef.current.contains(e.target)) {
+        setShowDropdown(false)
+      }
+    }
+    document.addEventListener('mousedown', handleClickOutside)
+    return () => document.removeEventListener('mousedown', handleClickOutside)
+  }, [])
 
   const startGame = () => {
     const randomDept = departments[Math.floor(Math.random() * departments.length)]
@@ -199,154 +235,200 @@ export default function Game({ onWin }) { // onWin propunu ekledik
     setUserInput('')
     setMessage('')
     setMessageType('')
-    setComparisons([])
+    setGuesses([])
+    setWon(false)
+    setTimeout(() => inputRef.current?.focus(), 100)
   }
 
-  const handleSubmit = (e) => {
-    e.preventDefault()
-    if (!userInput.trim()) {
-      setMessage('Lütfen bir departman adı girin.')
-      setMessageType('error')
+  const handleSelectDept = (name) => {
+    setUserInput(name)
+    setShowDropdown(false)
+    setActiveDropdownIndex(-1)
+    setTimeout(() => inputRef.current?.focus(), 50)
+  }
+
+  const handleKeyDown = (e) => {
+    if (!showDropdown || filteredDepts.length === 0) {
+      if (e.key === 'Enter') {
+        e.preventDefault()
+        handleSubmit()
+      }
       return
     }
 
-    const guessedDept = departments.find(
-      dept => dept.departmanadi.toLowerCase() === userInput.trim().toLowerCase()
-    )
-
-    if (guessedDept) {
-      if (currentDept && guessedDept.departmanadi.toLowerCase() === currentDept.departmanadi.toLowerCase()) {
-        setMessage('Kazandınız!')
-        setMessageType('success')
-        onWin(); // Oyun kazanıldığında onWin fonksiyonunu çağır
+    if (e.key === 'ArrowDown') {
+      e.preventDefault()
+      setActiveDropdownIndex(prev => Math.min(prev + 1, filteredDepts.length - 1))
+    } else if (e.key === 'ArrowUp') {
+      e.preventDefault()
+      setActiveDropdownIndex(prev => Math.max(prev - 1, 0))
+    } else if (e.key === 'Enter') {
+      e.preventDefault()
+      if (activeDropdownIndex >= 0) {
+        handleSelectDept(filteredDepts[activeDropdownIndex])
       } else {
-        // Karşılaştırılacak özellikler
-        const properties = [
-          { key: 'departmanadi', label:'Departman Adı', type: 'string'},
-          { key: 'turkiyeDevletUniSiralamasi', label: 'Türkiye Devlet Üniversitesi Sıralaması', type: 'number' },
-          { key: 'departmanAcilisYili', label: 'Departman Açılış Yılı', type: 'number' },
-          { key: 'fakulteTuru', label: 'Fakülte Türü', type: 'string' },
-          { key: 'yandalVeCAP', label: 'Yandal ve ÇAP Bilgisi', type: 'string' },
-          { key: 'yksYaklasikSiralamasi2024', label: 'YKS Yaklaşık Sıralama 2024', type: 'number' },
-          { key: 'erasmusUlkeSayisi', label: 'Erasmus Ülke Sayısı', type: 'number' },
-          { key: 'ogretimGorevlisiSayisi', label: 'Öğretim Görevlisi Sayısı', type: 'number' }
-        ]
-
-        const newComparisons = properties.map(prop => {
-          const guessedValue = guessedDept[prop.key]
-          const targetValue = currentDept[prop.key]
-          let symbol = ''
-          let status = ''
-
-          if (prop.type === 'number') {
-            if (targetValue === null || guessedValue === null) {
-              symbol = 'N/A'
-              status = 'neutral'
-            } else {
-              // Özel kural: Eğer YKS Yaklaşık Sıralama 2024 arasında 17000 ile 20000 arasında ise '▲' göster
-              if (prop.key === 'yksYaklasikSiralamasi2024' && guessedValue >= 17000 && guessedValue <= 20000) {
-                symbol = '▲'
-                status = 'within-range'
-              } else {
-                if (guessedValue > targetValue) {
-                  symbol = '▼' // Tahmin yüksek
-                  status = 'too-high'
-                } else if (guessedValue < targetValue) {
-                  symbol = '▲' // Tahmin düşük
-                  status = 'too-low'
-                } else {
-                  symbol = '✔️' // Tahmin doğru
-                  status = 'correct'
-                }
-              }
-            }
-          } else if (prop.type === 'string') {
-            if (guessedValue.toLowerCase() === targetValue.toLowerCase()) {
-              symbol = '✔️' // Tahmin doğru
-              status = 'correct'
-            } else {
-              symbol = '✖️' // Tahmin yanlış
-              status = 'incorrect'
-            }
-          }
-
-          return {
-            label: prop.label,
-            guessedValue: prop.type === 'number' && guessedValue !== null ? guessedValue.toLocaleString('tr-TR') : guessedValue,
-            symbol,
-            status
-          }
-        })
-
-        setComparisons([...comparisons, ...newComparisons])
-        setMessage('Yanlış Tahmin. İpuçları alındı.')
-        setMessageType('error')
+        handleSubmit()
       }
-    } else {
-      setMessage('Yanlış Tahmin. Böyle bir departman yok.')
-      setMessageType('error')
+    } else if (e.key === 'Escape') {
+      setShowDropdown(false)
     }
-
-    setUserInput('')
   }
 
-  // Tüm departman adlarını bir diziye ekleyerek datalist oluşturuyoruz
-  const departmentNames = departments.map(dept => dept.departmanadi)
+  const handleSubmit = () => {
+    if (!userInput.trim() || !currentDept) return
+
+    const guessedDept = departments.find(
+      d => d.departmanadi.toLowerCase() === userInput.trim().toLowerCase()
+    )
+
+    if (!guessedDept) {
+      setMessage('Bu isimde bir bölüm yok. Listeden seçin.')
+      setMessageType('notfound')
+      setUserInput('')
+      return
+    }
+
+    // Build tile row
+    const row = properties.map(prop => {
+      const guessedValue = guessedDept[prop.key]
+      const targetValue = currentDept[prop.key]
+      const { symbol, status } = getTileStatus(prop, guessedValue, targetValue)
+      return {
+        label: prop.label,
+        value: prop.type === 'number' && guessedValue !== null
+          ? guessedValue.toLocaleString('tr-TR')
+          : guessedValue,
+        symbol,
+        status
+      }
+    })
+
+    const isWin = guessedDept.departmanadi.toLowerCase() === currentDept.departmanadi.toLowerCase()
+
+    setGuesses(prev => [...prev, row])
+    setUserInput('')
+
+    if (isWin) {
+      setMessage('')
+      setMessageType('')
+      setWon(true)
+    } else {
+      setMessage(`${guessedDept.departmanadi} değil. İpuçlarını takip et!`)
+      setMessageType('error')
+    }
+  }
+
+  if (!currentDept) return null
 
   return (
     <div className={styles.gameContainer}>
-      {!currentDept && (
-        <button className={styles.startButton} onClick={startGame}>Oyunu Başlat</button>
+      {/* Info bar */}
+      <div className={styles.gameHeader}>
+        <span className={styles.attemptBadge}>
+          Tahmin: <span>{guesses.length}</span>
+        </span>
+        <span className={styles.attemptBadge}>
+          Kalan: <span>{departments.length - guesses.length}</span>
+        </span>
+      </div>
+
+      {/* Message */}
+      {message && (
+        <div className={`${styles.messageBar} ${
+          messageType === 'notfound' ? styles.messageNotFound : styles.messageError
+        }`}>
+          {message}
+        </div>
       )}
 
-      {currentDept && (
-        <div className={styles.gameContent}>
-          <form onSubmit={handleSubmit} className={styles.form}>
-            <label className={styles.label}>
-              Departman Adını Girin:
-              <input
-                type="text"
-                list="departmanlar"
-                value={userInput}
-                onChange={(e) => setUserInput(e.target.value)}
-                className={`${styles.input} ${styles.autoCompleteInput}`} // Yeni stil sınıfı eklendi
-                required
-                autoComplete="off"
-              />
-              <datalist id="departmanlar" className={styles.datalist}> // Stil sınıfı eklendi
-                {departmentNames.map((name, index) => (
-                  <option key={index} value={name} />
+      {/* Input */}
+      {!won && (
+        <form className={styles.form} onSubmit={(e) => { e.preventDefault(); handleSubmit() }}>
+          <div className={styles.inputWrapper} ref={dropdownRef}>
+            <input
+              ref={inputRef}
+              type="text"
+              value={userInput}
+              onChange={(e) => {
+                setUserInput(e.target.value)
+                setShowDropdown(true)
+                setActiveDropdownIndex(-1)
+              }}
+              onFocus={() => setShowDropdown(true)}
+              onKeyDown={handleKeyDown}
+              className={styles.input}
+              placeholder="Bölüm adı yazın..."
+              autoComplete="off"
+            />
+            {showDropdown && filteredDepts.length > 0 && (
+              <div className={styles.dropdown}>
+                {filteredDepts.slice(0, 8).map((name, i) => (
+                  <div
+                    key={name}
+                    className={`${styles.dropdownItem} ${i === activeDropdownIndex ? styles.dropdownItemActive : ''}`}
+                    onMouseDown={() => handleSelectDept(name)}
+                  >
+                    {name}
+                  </div>
                 ))}
-              </datalist>
-            </label>
-            <button type="submit" className={styles.submitButton}>Tahmin Et</button>
-          </form>
-          {message && (
-            <p className={messageType === 'success' ? styles.successMessage : styles.errorMessage}>
-              {message}
-            </p>
-          )}
-          {comparisons.length > 0 && (
-            <div className={styles.comparisonsContainer}>
-              {comparisons.map((comp, index) => (
-                <div
-                  key={index}
-                  className={`${styles.comparisonBox} ${
-                    comp.status === 'correct' ? styles.correct :
-                    comp.status === 'too-high' || comp.status === 'too-low' ? styles.incorrect :
-                    comp.status === 'within-range' ? styles.withinRange :
-                    styles.neutral
-                  }`}
-                >
-                  <h4>{comp.label}</h4>
-                  <p>{comp.guessedValue} {comp.symbol}</p>
-                </div>
-              ))}
+              </div>
+            )}
+          </div>
+          <button type="submit" className={styles.submitButton}>Tahmin Et</button>
+        </form>
+      )}
+
+      {/* Column headers */}
+      {guesses.length > 0 && (
+        <div className={styles.columnHeaders}>
+          {properties.map(p => (
+            <div key={p.key} className={styles.columnHeader}>{p.label}</div>
+          ))}
+        </div>
+      )}
+
+      {/* Guess grid */}
+      <div className={styles.guessGrid}>
+        {guesses.map((row, rowIndex) => (
+          <div key={rowIndex} className={styles.guessRow}>
+            {row.map((tile, tileIndex) => (
+              <div
+                key={tileIndex}
+                className={`${styles.tile} ${
+                  tile.status === 'correct' ? styles.tileCorrect :
+                  tile.status === 'close' ? styles.tileClose :
+                  tile.status === 'wrong' ? styles.tileWrong :
+                  styles.tileNeutral
+                }`}
+              >
+                <span className={styles.tileLabel}>{tile.label}</span>
+                <span className={styles.tileValue}>{tile.value}</span>
+                <span className={styles.tileSymbol}>{tile.symbol}</span>
+              </div>
+            ))}
+          </div>
+        ))}
+      </div>
+
+      {/* Win overlay */}
+      {won && (
+        <div className={styles.winOverlay}>
+          <div className={styles.winCard}>
+            <div className={styles.winEmoji}>🎉</div>
+            <div className={styles.winTitle}>Tebrikler!</div>
+            <div className={styles.winSubtitle}>
+              {guesses.length} tahminde bildiniz: <strong>{currentDept.departmanadi}</strong>
             </div>
-          )}
-          {messageType === 'success' && (
-            <button className={styles.restartButton} onClick={startGame}>Yeni Oyun Başlat</button>
-          )}
+            <button className={styles.winButton} onClick={startGame}>
+              Tekrar Oyna
+            </button>
+            <button
+              className={`${styles.winButton} ${styles.winButtonSecondary}`}
+              onClick={() => { setWon(false); onWin() }}
+            >
+              Sonraki Oyun →
+            </button>
+          </div>
         </div>
       )}
     </div>
